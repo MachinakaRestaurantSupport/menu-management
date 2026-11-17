@@ -5,12 +5,14 @@ from fastapi import FastAPI, HTTPException, status
 from menu_management.client import ProductClient
 from menu_management.models import Channel, Menu, MenuCreate, MenuPublishUpdate
 from menu_management.store import MenuStore
+from menu_management.ui import create_ui_router
 
 
 def create_app(product_client: ProductClient | None = None) -> FastAPI:
     """Create and configure the menu-management FastAPI application."""
     app = FastAPI(title="menu-management", version="0.1.0")
     store = MenuStore()
+    app.include_router(create_ui_router(store, product_client))
 
     @app.get("/health")
     def health() -> dict[str, str]:

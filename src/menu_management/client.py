@@ -23,6 +23,12 @@ class ProductClient:
         response.raise_for_status()
         return response.json()
 
+    def list_products(self) -> list[dict[str, Any]]:
+        """Fetch all products from product-management."""
+        response = self._client.get("/products")
+        response.raise_for_status()
+        return response.json()
+
     def close(self) -> None:
         """Close the underlying HTTP client."""
         self._client.close()

@@ -153,3 +153,22 @@ def test_toggle_publish_missing_menu_returns_404() -> None:
     )
 
     assert response.status_code == 404
+
+
+def test_menu_ui_screens() -> None:
+    app = create_app(product_client=make_product_client())
+    client = TestClient(app)
+
+    client.post(
+        "/menus",
+        json={
+            "channel": "dine_in",
+            "title": "Dinner Menu",
+            "categories": [{"name": "Drinks", "product_ids": ["prod-2"]}],
+        },
+    )
+
+    for path in ("/ui/menus", "/ui/menus/editor", "/ui/menus/preview"):
+        res = client.get(path)
+        assert res.status_code == 200
+        assert "メニュー管理" in res.text

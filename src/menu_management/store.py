@@ -32,6 +32,10 @@ class MenuStore:
             if menu.channel == channel and menu.published
         ]
 
+    def list_all(self) -> list[Menu]:
+        """Return all stored menus regardless of publication status."""
+        return list(self._menus.values())
+
     def set_published(self, menu_id: str, published: bool) -> Menu | None:
         """Update publication status of a menu, returning None if not found."""
         existing = self._menus.get(menu_id)
